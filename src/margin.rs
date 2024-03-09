@@ -54,7 +54,7 @@ impl Margin {
     pub async fn transfer<S, F>(&self, symbol: S, qty: F, transfer_type: MarginTransferType) -> Result<TransactionId>
     where
         S: Into<String>,
-        F: Into<f64>,
+        F: Into<Decimal>,
     {
         let transfer: Transfer = Transfer {
             asset: symbol.into(),
@@ -84,7 +84,7 @@ impl Margin {
     ) -> Result<TransactionId>
     where
         S: Into<String>,
-        F: Into<f64>,
+        F: Into<Decimal>,
     {
         let transfer = IsolatedTransfer {
             asset: asset_symbol.into(),
@@ -109,7 +109,7 @@ impl Margin {
     pub async fn loan<S, F>(&self, symbol: S, qty: F) -> Result<TransactionId>
     where
         S: Into<String>,
-        F: Into<f64>,
+        F: Into<Decimal>,
     {
         self.loan_with_isolation(symbol, qty, None, None).await
     }
@@ -131,7 +131,7 @@ impl Margin {
     ) -> Result<TransactionId>
     where
         S: Into<String>,
-        F: Into<f64>,
+        F: Into<Decimal>,
     {
         let loan: Loan = Loan {
             asset: symbol.into(),
@@ -154,7 +154,7 @@ impl Margin {
     pub async fn repay<S, F>(&self, symbol: S, qty: F) -> Result<TransactionId>
     where
         S: Into<String>,
-        F: Into<f64>,
+        F: Into<Decimal>,
     {
         self.repay_with_isolation(symbol, qty, None, None).await
     }
@@ -176,7 +176,7 @@ impl Margin {
     ) -> Result<TransactionId>
     where
         S: Into<String>,
-        F: Into<f64>,
+        F: Into<Decimal>,
     {
         let loan: Loan = Loan {
             asset: symbol.into(),

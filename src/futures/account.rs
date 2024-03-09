@@ -1,13 +1,16 @@
 use std::collections::BTreeMap;
 
-use super::rest_model::{AccountBalance, AccountInformation, CanceledOrder, ChangeLeverageResponse, Order, OrderType,
-                        Position, PositionSide, Transaction, WorkingType};
+use super::rest_model::{
+    AccountBalance, AccountInformation, CanceledOrder, ChangeLeverageResponse, Order, OrderType, Position,
+    PositionSide, Transaction, WorkingType,
+};
 use crate::account::OrderCancellation;
 use crate::client::Client;
 use crate::errors::*;
 use crate::rest_model::{OrderSide, TimeInForce};
 use crate::rest_model::{PairAndWindowQuery, PairQuery};
 use crate::util::*;
+use rust_decimal::Decimal;
 use serde::Serializer;
 use std::fmt;
 
@@ -58,13 +61,13 @@ pub struct OrderRequest {
     pub order_type: OrderType,
     pub time_in_force: Option<TimeInForce>,
     #[serde(rename = "quantity")]
-    pub quantity: Option<f64>,
+    pub quantity: Option<Decimal>,
     pub reduce_only: Option<bool>,
-    pub price: Option<f64>,
-    pub stop_price: Option<f64>,
+    pub price: Option<Decimal>,
+    pub stop_price: Option<Decimal>,
     pub close_position: Option<bool>,
-    pub activation_price: Option<f64>,
-    pub callback_rate: Option<f64>,
+    pub activation_price: Option<Decimal>,
+    pub callback_rate: Option<Decimal>,
     pub working_type: Option<WorkingType>,
     #[serde(serialize_with = "serialize_opt_as_uppercase")]
     pub price_protect: Option<bool>,
@@ -110,8 +113,8 @@ impl FuturesAccount {
     pub async fn limit_buy(
         &self,
         symbol: impl Into<String>,
-        qty: impl Into<f64>,
-        price: f64,
+        qty: impl Into<Decimal>,
+        price: Decimal,
         time_in_force: TimeInForce,
     ) -> Result<Transaction> {
         let order = OrderRequest {
@@ -138,8 +141,8 @@ impl FuturesAccount {
     pub async fn limit_sell(
         &self,
         symbol: impl Into<String>,
-        qty: impl Into<f64>,
-        price: f64,
+        qty: impl Into<Decimal>,
+        price: Decimal,
         time_in_force: TimeInForce,
     ) -> Result<Transaction> {
         let order = OrderRequest {
@@ -166,7 +169,7 @@ impl FuturesAccount {
     pub async fn market_buy<S, F>(&self, symbol: S, qty: F) -> Result<Transaction>
     where
         S: Into<String>,
-        F: Into<f64>,
+        F: Into<Decimal>,
     {
         let order = OrderRequest {
             symbol: symbol.into(),
@@ -192,7 +195,7 @@ impl FuturesAccount {
     pub async fn market_sell<S, F>(&self, symbol: S, qty: F) -> Result<Transaction>
     where
         S: Into<String>,
-        F: Into<f64>,
+        F: Into<Decimal>,
     {
         let order: OrderRequest = OrderRequest {
             symbol: symbol.into(),

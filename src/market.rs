@@ -75,7 +75,9 @@ impl Market {
     /// let prices = tokio_test::block_on(market.get_all_prices());
     /// assert!(prices.is_ok(), "{:?}", prices);
     /// ```
-    pub async fn get_all_prices(&self) -> Result<Prices> { self.client.get(API_V3_TICKER_PRICE, None).await }
+    pub async fn get_all_prices(&self) -> Result<Prices> {
+        self.client.get(API_V3_TICKER_PRICE, None).await
+    }
 
     /// Latest price for ONE symbol.
     /// # Examples
@@ -121,7 +123,9 @@ impl Market {
     /// let tickers = tokio_test::block_on(market.get_all_book_tickers());
     /// assert!(tickers.is_ok(), "{:?}", tickers);
     /// ```
-    pub async fn get_all_book_tickers(&self) -> Result<BookTickers> { self.client.get(API_V3_BOOK_TICKER, None).await }
+    pub async fn get_all_book_tickers(&self) -> Result<BookTickers> {
+        self.client.get(API_V3_BOOK_TICKER, None).await
+    }
 
     /// -> Best price/qty on the order book for ONE symbol
     /// # Examples
@@ -240,16 +244,16 @@ impl Market {
                 .iter()
                 .map(|row| KlineSummary {
                     open_time: to_i64(&row[0]),
-                    open: to_f64(&row[1]),
-                    high: to_f64(&row[2]),
-                    low: to_f64(&row[3]),
-                    close: to_f64(&row[4]),
-                    volume: to_f64(&row[5]),
+                    open: to_decimal(&row[1]),
+                    high: to_decimal(&row[2]),
+                    low: to_decimal(&row[3]),
+                    close: to_decimal(&row[4]),
+                    volume: to_decimal(&row[5]),
                     close_time: to_i64(&row[6]),
-                    quote_asset_volume: to_f64(&row[7]),
+                    quote_asset_volume: to_decimal(&row[7]),
                     number_of_trades: to_i64(&row[8]),
-                    taker_buy_base_asset_volume: to_f64(&row[9]),
-                    taker_buy_quote_asset_volume: to_f64(&row[10]),
+                    taker_buy_base_asset_volume: to_decimal(&row[9]),
+                    taker_buy_quote_asset_volume: to_decimal(&row[10]),
                 })
                 .collect(),
         );

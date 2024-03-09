@@ -1,7 +1,9 @@
 use crate::client::*;
 use crate::errors::*;
 use crate::futures::rest_model::*;
-use crate::rest_model::{BookTickers, KlineSummaries, KlineSummary, PairAndWindowQuery, PairQuery, SymbolPrice, Tickers};
+use crate::rest_model::{
+    BookTickers, KlineSummaries, KlineSummary, PairAndWindowQuery, PairQuery, SymbolPrice, Tickers,
+};
 use crate::util::*;
 use serde_json::Value;
 
@@ -315,16 +317,16 @@ impl FuturesMarket {
             data.iter()
                 .map(|row| KlineSummary {
                     open_time: to_i64(&row[0]),
-                    open: to_f64(&row[1]),
-                    high: to_f64(&row[2]),
-                    low: to_f64(&row[3]),
-                    close: to_f64(&row[4]),
-                    volume: to_f64(&row[5]),
+                    open: to_decimal(&row[1]),
+                    high: to_decimal(&row[2]),
+                    low: to_decimal(&row[3]),
+                    close: to_decimal(&row[4]),
+                    volume: to_decimal(&row[5]),
                     close_time: to_i64(&row[6]),
-                    quote_asset_volume: to_f64(&row[7]),
+                    quote_asset_volume: to_decimal(&row[7]),
                     number_of_trades: to_i64(&row[8]),
-                    taker_buy_base_asset_volume: to_f64(&row[9]),
-                    taker_buy_quote_asset_volume: to_f64(&row[10]),
+                    taker_buy_base_asset_volume: to_decimal(&row[9]),
+                    taker_buy_quote_asset_volume: to_decimal(&row[10]),
                 })
                 .collect(),
         );
@@ -422,7 +424,7 @@ impl FuturesMarket {
             end_time: end_time.into(),
             limit: limit.into(),
             pair: symbol.into(),
-            interval: Some(interval.into())
+            interval: Some(interval.into()),
         };
 
         let klines = self.client.get_d("/fapi/v1/indexPriceKlines", Some(query)).await?;

@@ -3,6 +3,8 @@ use crate::errors::*;
 use crate::rest_model::*;
 use crate::util::*;
 
+use rust_decimal::prelude::*;
+
 static API_V3_ACCOUNT: &str = "/api/v3/account";
 static API_V3_OPEN_ORDERS: &str = "/api/v3/openOrders";
 static API_V3_ALL_ORDERS: &str = "/api/v3/allOrders";
@@ -30,15 +32,15 @@ pub struct OrderRequest {
     #[serde(rename = "type")]
     pub order_type: OrderType,
     pub time_in_force: Option<TimeInForce>,
-    pub quantity: Option<f64>,
-    pub quote_order_qty: Option<f64>,
-    pub price: Option<f64>,
+    pub quantity: Option<Decimal>,
+    pub quote_order_qty: Option<Decimal>,
+    pub price: Option<Decimal>,
     /// A unique id for the order, automatically generated if not sent.
     pub new_client_order_id: Option<String>,
     /// Used with stop loss, stop loss limit, take profit and take profit limit order types.
-    pub stop_price: Option<f64>,
+    pub stop_price: Option<Decimal>,
     /// Used with limit, stop loss limit and take profit limit to create an iceberg order.
-    pub iceberg_qty: Option<f64>,
+    pub iceberg_qty: Option<Decimal>,
     /// Set the response json, market and limit default to full others to ack.
     pub new_order_resp_type: Option<OrderResponse>,
     /// Cannot be greater than 60000
@@ -83,15 +85,15 @@ pub struct CancelReplaceRequest {
     pub order_type: OrderType,
     pub cancel_replace_mode: CancelReplaceMode,
     pub time_in_force: Option<TimeInForce>,
-    pub quantity: Option<f64>,
-    pub quote_order_qty: Option<f64>,
-    pub price: Option<f64>,
+    pub quantity: Option<Decimal>,
+    pub quote_order_qty: Option<Decimal>,
+    pub price: Option<Decimal>,
     pub cancel_new_client_order_id: Option<String>,
     pub cancel_orig_client_order_id: Option<String>,
     pub cancel_order_id: Option<u64>,
     pub new_client_order_id: Option<String>,
-    pub stop_price: Option<f64>,
-    pub iceberg_qty: Option<f64>,
+    pub stop_price: Option<Decimal>,
+    pub iceberg_qty: Option<Decimal>,
     pub new_order_resp_type: Option<OrderResponse>,
     /// Cannot be greater than 60000
     pub recv_window: Option<u64>,

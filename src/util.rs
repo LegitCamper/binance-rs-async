@@ -2,6 +2,7 @@ use std::ops::Not;
 
 use boolinator::Boolinator;
 use chrono::{Duration, Utc};
+use rust_decimal::prelude::*;
 use serde_json::Value;
 
 use crate::errors::*;
@@ -76,15 +77,19 @@ pub fn to_i64(v: &Value) -> i64 {
     v.as_i64().unwrap()
 }
 
-pub fn to_f64(v: &Value) -> f64 {
+pub fn to_decimal(v: &Value) -> Decimal {
     // TODO: should this return result?
     v.as_str().unwrap().parse().unwrap()
 }
 
-pub fn get_timestamp() -> Result<u64> { Ok(Utc::now().timestamp_millis() as u64) }
+pub fn get_timestamp() -> Result<u64> {
+    Ok(Utc::now().timestamp_millis() as u64)
+}
 
 /// Returns a duration in milliseconds for the `days`
-pub fn days_millis(days: i64) -> i64 { Duration::days(days).num_milliseconds() }
+pub fn days_millis(days: i64) -> i64 {
+    Duration::days(days).num_milliseconds()
+}
 
 const TRUE: &str = "TRUE";
 const FALSE: &str = "FALSE";
@@ -97,4 +102,6 @@ pub fn bool_to_string(b: bool) -> String {
     }
 }
 
-pub fn bool_to_string_some(b: bool) -> Option<String> { Some(bool_to_string(b)) }
+pub fn bool_to_string_some(b: bool) -> Option<String> {
+    Some(bool_to_string(b))
+}

@@ -3,6 +3,7 @@ use crate::errors::*;
 use crate::rest_model::*;
 use chrono::DateTime;
 use chrono::{Duration, Utc};
+use rust_decimal::prelude::*;
 use std::collections::HashMap;
 use std::ops::Sub;
 
@@ -48,7 +49,9 @@ impl Wallet {
     /// let system_status = tokio_test::block_on(wallet.system_status());
     /// assert!(system_status.is_ok(), "{:?}", system_status);
     /// ```
-    pub async fn system_status(&self) -> Result<SystemStatus> { self.client.get_p(SAPI_V1_SYSTEM_STATUS, None).await }
+    pub async fn system_status(&self) -> Result<SystemStatus> {
+        self.client.get_p(SAPI_V1_SYSTEM_STATUS, None).await
+    }
 
     /// Get information of coins (available for deposit and withdraw) for user.
     /// # Examples
@@ -298,7 +301,7 @@ impl Wallet {
     pub async fn universal_transfer(
         &self,
         asset: String,
-        amount: f64,
+        amount: Decimal,
         from_symbol: Option<String>,
         to_symbol: Option<String>,
         transfer_type: UniversalTransferType,
