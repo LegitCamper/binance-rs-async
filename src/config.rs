@@ -1,4 +1,4 @@
-pub static DATA_REST_ENDPOINT: &str = "https://api.binance.com";
+pub static DATA_REST_ENDPOINT: &str = "https://data.binance.us";
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Config {
@@ -26,11 +26,11 @@ impl Config {
         Config::default()
             .set_rest_api_endpoint("https://testnet.binance.vision")
             .set_ws_endpoint("wss://testnet.binance.vision")
-            .set_futures_rest_api_endpoint("https://testnet.binancefuture.com")
-            .set_futures_ws_endpoint("wss://fstream.binancefuture.com")
+            .set_futures_rest_api_endpoint("https://testnet.binancefuture.us")
+            .set_futures_ws_endpoint("wss://testnet.binancefuture.us")
     }
 
-    /// Sets the rest api endpoint. Defaults to <https://api.binance.com>.
+    /// Sets the rest api endpoint. Defaults to <https://api.binance.us>.
     ///
     /// # Arguments
     ///
@@ -50,7 +50,7 @@ impl Config {
         self
     }
 
-    /// Sets the websocket endpoint. Defaults to "wss://stream.binance.com:9443".
+    /// Sets the websocket endpoint. Defaults to "wss://stream.binance.us:9443".
     ///
     /// # Arguments
     ///
@@ -70,7 +70,7 @@ impl Config {
         self
     }
 
-    /// Sets the futures rest api endpoint. Defaults to <https://fapi.binance.com>.
+    /// Sets the futures rest api endpoint. Defaults to <https://fapi.binance.us>.
     ///
     /// # Arguments
     ///
@@ -90,7 +90,7 @@ impl Config {
         self
     }
 
-    /// Sets the futures websocket endpoint. Defaults to "wss://fstream.binance.com".
+    /// Sets the futures websocket endpoint. Defaults to "wss://fstream.binance.us".
     ///
     /// # Arguments
     ///
@@ -161,11 +161,11 @@ impl Default for Config {
     /// ```
     fn default() -> Config {
         Config {
-            rest_api_endpoint: "https://api.binance.com".into(),
-            ws_endpoint: "wss://stream.binance.com:9443".into(),
+            rest_api_endpoint: "https://api.binance.us".into(),
+            ws_endpoint: "wss://stream.binance.us:9443".into(),
 
-            futures_rest_api_endpoint: "https://fapi.binance.com".into(),
-            futures_ws_endpoint: "wss://fstream.binance.com".into(),
+            futures_rest_api_endpoint: "https://fapi.binance.us".into(),
+            futures_ws_endpoint: "wss://fstream.binance.us".into(),
 
             recv_window: 5000,
             binance_us_api: false,
